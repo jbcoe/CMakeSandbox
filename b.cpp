@@ -1,6 +1,6 @@
-#include <cstdio>
+#include "macros.h"
 
 void b()
 {
-  printf("b called\n");
+  log(__func__, __FILE__, __LINE__);
 }
