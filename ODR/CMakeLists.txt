@@ -2,9 +2,9 @@ cmake_minimum_required(VERSION 3.0)
 
 set(CMAKE_CXX_FLAGS "-fPIC")
 
-add_library(a a.cpp)
-add_library(a2 a2.cpp)
-add_library(b b.cpp)
+add_library(a SHARED a.cpp)
+add_library(a2 SHARED a2.cpp)
+add_library(b SHARED b.cpp)
 add_library(abc SHARED abc.cpp)
 add_library(abd SHARED abd.cpp)
 add_library(abe SHARED abe.cpp)
