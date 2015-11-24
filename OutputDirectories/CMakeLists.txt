@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.3)
+cmake_minimum_required(VERSION 3.2)
 
 project(Shape_c)
 
@@ -8,7 +8,10 @@ SET(Shape_c_VERSION_PATCH 0)
 
 set(CMAKE_CXX_STANDARD 14)
 
+#Apple clang disallows thread_local so use user-defined clang
+if(APPLE)
 set(CMAKE_CXX_COMPILER /usr/local/bin/clang++-3.6)
+endif()
 
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
@@ -20,14 +23,15 @@ add_executable(TestMe TestMe.cpp)
 
 file(COPY "test.py" "Shape.py" DESTINATION ${CMAKE_LIBRARY_OUTPUT_DIRECTORY})
 
-install(TARGETS Shape_c DESTINATION .)
-install(FILES "test.py" "Shape.py" DESTINATION .)
+install(TARGETS Shape_c DESTINATION ${CMAKE_LIBRARY_OUTPUT_DIRECTORY})
+install(FILES "test.py" "Shape.py" DESTINATION ${CMAKE_LIBRARY_OUTPUT_DIRECTORY})
 
 ################################################################################
 
 SET(CPACK_PACKAGE_VERSION_MAJOR ${Shape_c_VERSION_MAJOR})
 SET(CPACK_PACKAGE_VERSION_MINOR ${Shape_c_VERSION_MINOR})
 SET(CPACK_PACKAGE_VERSION_PATCH ${Shape_c_VERSION_PATCH})
+SET(CPACK_PACKAGE_CONTACT package.maintainter@shapes.shape)
 SET(CPACK_PACKAGE_INSTALL_DIRECTORY "Shape_c.${Shape_c_VERSION_MAJOR}.${Shape_c_VERSION_MINOR}")
 set(CPACK_GENERATOR TBZ2)
 include(CPack)
