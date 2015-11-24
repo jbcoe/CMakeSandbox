@@ -2,7 +2,16 @@
 #include <string>
 #include "Shape.h"
 
-#define Shape_EXPORT __attribute__((visibility("default")))
+#if defined(__clang__)
+#define Shape_c_API __attribute__((visibility("default")))
+#elif defined(_MSC_VER)
+#ifdef Shape_c_EXPORTS
+#define Shape_c_API __declspec(dllexport)
+#else
+#define Shape_c_API __declspec(dllimport)
+#endif
+#endif
+
 #define RC_SUCCESS 0
 #define RC_FAIL 1
 
@@ -12,22 +21,22 @@ static thread_local std::string Shape_error_;
 
 extern "C" {
 
-Shape_EXPORT void Shape_clear_error()
+Shape_c_API void Shape_clear_error()
 {
   Shape_error_.clear();
 }
 
-Shape_EXPORT const char* Shape_error()
+Shape_c_API const char* Shape_error()
 {
   return Shape_error_.c_str();
 }
 
-Shape_EXPORT void Shape_dispose(const void* myShape)
+Shape_c_API void Shape_dispose(const void* myShape)
 {
   delete reinterpret_cast<const Shape*>(myShape);
 }
 
-Shape_EXPORT int Shape_area(const void* myShape, double* rv)
+Shape_c_API int Shape_area(const void* myShape, double* rv)
 {
   try 
   {
@@ -41,7 +50,7 @@ Shape_EXPORT int Shape_area(const void* myShape, double* rv)
   return RC_FAIL;
 }
 
-Shape_EXPORT int Shape_perimeter(const void* myShape, double* rv)
+Shape_c_API int Shape_perimeter(const void* myShape, double* rv)
 {
   try 
   {
@@ -55,7 +64,7 @@ Shape_EXPORT int Shape_perimeter(const void* myShape, double* rv)
   return RC_FAIL;
 }
 
-Shape_EXPORT int Shape_name(const void* myShape, const char** rv)
+Shape_c_API int Shape_name(const void* myShape, const char** rv)
 {
   try 
   {
@@ -69,7 +78,7 @@ Shape_EXPORT int Shape_name(const void* myShape, const char** rv)
   return RC_FAIL;
 }
 
-Shape_EXPORT int Shape_is_equal(const void* myShape, const void* s, int* rv)
+Shape_c_API int Shape_is_equal(const void* myShape, const void* s, int* rv)
 {
   try 
   {
@@ -83,7 +92,7 @@ Shape_EXPORT int Shape_is_equal(const void* myShape, const void* s, int* rv)
   return RC_FAIL;
 }
 
-Shape_EXPORT int Shape_Circle_create(double radius, const void** rv)
+Shape_c_API int Shape_Circle_create(double radius, const void** rv)
 {
   try 
   {
@@ -97,7 +106,7 @@ Shape_EXPORT int Shape_Circle_create(double radius, const void** rv)
   return RC_FAIL;
 }
 
-Shape_EXPORT int Shape_Square_create(double side, const void** rv)
+Shape_c_API int Shape_Square_create(double side, const void** rv)
 {
   try 
   {
@@ -111,7 +120,7 @@ Shape_EXPORT int Shape_Square_create(double side, const void** rv)
   return RC_FAIL;
 }
 
-Shape_EXPORT int Shape_Pentagon_create(double side, const void** rv)
+Shape_c_API int Shape_Pentagon_create(double side, const void** rv)
 {
   try 
   {
