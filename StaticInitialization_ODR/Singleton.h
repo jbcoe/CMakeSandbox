@@ -1,13 +1,12 @@
 #include <vector>
 #include <random>
 
-std::random_device rd;
-std::mt19937 gen(rd());
+std::vector<int> g_magic_numbers = {4,7,22,1,7,11};
 
-std::vector<int> g_magic_numbers = {0,1,2,3,4,5,6,7,8,9,10,11,15,6,19,21};
+size_t g_i = 0;
 
 int magic_number()
 {
   std::uniform_int_distribution<int> d(0,g_magic_numbers.size()-1);
-  return g_magic_numbers[d(gen)];
+  return g_magic_numbers[g_i%g_magic_numbers.size()];
 }
