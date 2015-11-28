@@ -2,8 +2,6 @@ cmake_minimum_required(VERSION 3.0)
 
 set(CMAKE_CXX_STANDARD 14)
 
-set(CMAKE_CXX_FLAGS "-fPIC")
-
 add_library(favourite_number SHARED FavouriteNumber.cpp)
 add_library(least_favourite_number SHARED LeastFavouriteNumber.cpp)
 
